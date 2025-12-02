@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".ControlActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MonitorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NavActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
