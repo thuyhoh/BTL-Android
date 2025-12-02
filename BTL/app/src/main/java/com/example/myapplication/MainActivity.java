@@ -12,8 +12,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     private Button pushBtn;
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +26,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         pushBtn = (Button) findViewById(R.id.button);
         pushBtn.setOnClickListener(MainActivity.this);
+
     }
 
     @Override
     public void onClick(View v) {
         intent = new Intent(MainActivity.this, NavActivity.class);
         startActivity(intent);
+
     }
 }
