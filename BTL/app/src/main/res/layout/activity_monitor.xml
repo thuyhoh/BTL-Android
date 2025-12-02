@@ -1,64 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MonitorActivity">
+    android:background="#EFE1D1">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="IOT-Android"
-        android:textSize="35dp"
-        android:translationX="100dp"
-        android:translationY="65dp" />
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        <!-- TOP CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_round"
+            android:orientation="vertical"
+            android:elevation="4dp"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Hệ Thống Giám Sát Máy Ấp Trứng"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <TextView
+            android:text=""
+            android:layout_height="40dp"
+            android:layout_width="200dp"
+            android:textSize="14sp"
+            android:textColor="#333"/>
+    <!-- NHIỆT ĐỘ -->
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Temperature"
-        android:textSize="30dp"
-        android:translationX="52dp"
-        android:translationY="185dp"/>
+        android:background="@drawable/bg_card_round"
+        android:elevation="4dp"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:src="@drawable/ic_temp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="humidity"
-        android:textSize="30dp"
-        android:translationX="82dp"
-        android:translationY="249dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="Nhiệt độ"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_height="20dp"
+                android:layout_width="200dp"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/tvTemperature"
+                android:text="45°C"
+                android:layout_height="20dp"
+                android:layout_width="200dp"
+                android:textSize="14sp"
+                android:textColor="#333"/>
+        </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/humi_val"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="30dp"
-        android:translationX="297dp"
-        android:translationY="249dp" />
+        <!-- ĐỘ ẨM -->
+        <LinearLayout
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_round"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/temp_val"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="30dp"
-        android:translationX="297dp"
-        android:translationY="185dp"/>
+            <ImageView
+                android:src="@drawable/ic_humi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
 
-    <Button
-        android:id="@+id/Push_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Turn on"
-        android:textSize="30dp"
-        android:translationX="120dp"
-        android:translationY="364dp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:text="Độ ẩm"
+                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"/>
+
+                <TextView
+                    android:id="@+id/tvHumidity"
+                    android:text="60%"
+                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:textSize="14sp"
+                    android:textColor="#333"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- THỜI GIAN ẤP -->
+        <LinearLayout
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_round"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:src="@drawable/ic_time"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Thời gian ấp"
+                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"/>
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:text="29 ngày"
+                    android:textSize="14sp"
+                    android:textColor="#333"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!-- THỜI GIAN ẤP -->
+        <LinearLayout
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_round"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:src="@drawable/ic_fan"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Quạt thông gió"
+                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"/>
+
+                <TextView
+                    android:id="@+id/Fan"
+                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:text="Bật"
+                    android:textSize="14sp"
+                    android:textColor="#333"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
