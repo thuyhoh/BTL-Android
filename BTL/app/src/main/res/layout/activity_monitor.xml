@@ -67,15 +67,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:text="Nhiệt độ"
+                android:text="Nhiệt độ (°C)"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_height="20dp"
                 android:layout_width="200dp"
                 android:textColor="#000"/>
             <TextView
-                android:id="@+id/tvTemperature"
-                android:text="45°C"
+                android:id="@+id/tvTemp"
+                android:text="0"
                 android:layout_height="20dp"
                 android:layout_width="200dp"
                 android:textSize="14sp"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Độ ẩm"
+                    android:text="Độ ẩm (%)"
                     android:layout_height="20dp"
                     android:layout_width="200dp"
                     android:textSize="16sp"
@@ -114,8 +114,8 @@
                     android:textColor="#000"/>
 
                 <TextView
-                    android:id="@+id/tvHumidity"
-                    android:text="60%"
+                    android:id="@+id/tvHumi"
+                    android:text="0"
                     android:layout_height="20dp"
                     android:layout_width="200dp"
                     android:textSize="14sp"
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Thời gian ấp"
+                    android:text="Thời gian ấp (ngày)"
                     android:layout_height="20dp"
                     android:layout_width="200dp"
                     android:textSize="16sp"
@@ -156,7 +156,7 @@
                     android:id="@+id/tvTime"
                     android:layout_height="20dp"
                     android:layout_width="200dp"
-                    android:text="29 ngày"
+                    android:text="29 "
                     android:textSize="14sp"
                     android:textColor="#333"/>
             </LinearLayout>
@@ -192,10 +192,10 @@
                     android:textColor="#000"/>
 
                 <TextView
-                    android:id="@+id/Fan"
+                    android:id="@+id/tvFans"
                     android:layout_height="20dp"
                     android:layout_width="200dp"
-                    android:text="Bật"
+                    android:text="ON"
                     android:textSize="14sp"
                     android:textColor="#333"/>
             </LinearLayout>
