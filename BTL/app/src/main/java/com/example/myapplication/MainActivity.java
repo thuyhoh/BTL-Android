@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button pushBtn;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        intent = new Intent(MainActivity.this, NavActivity.class);
+        intent = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(intent);
 
     }
