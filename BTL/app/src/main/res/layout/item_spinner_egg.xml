@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp"
+    android:background="?android:attr/selectableItemBackground">
+    <TextView
+        android:id="@+id/tvEggName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên loại trứng"
+        android:textColor="#222222"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"/>
+
+    <TextView
+        android:id="@+id/tvEggDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="0 ngày • 0.0°C • 0% độ ẩm"
+        android:textColor="#757575"
+        android:textSize="14sp" />
+
+</LinearLayout>
