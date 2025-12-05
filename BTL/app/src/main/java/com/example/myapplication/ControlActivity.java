@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.service.controls.Control;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,11 +44,13 @@ public class ControlActivity extends AppCompatActivity {
     private View layoutContent, layoutContentBottom;
     private boolean isSystemOn = false;
 
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+
     static class EggParams {
         double temp;
         int humid;
         int days;
-
         public EggParams(double temp, int humid, int days) {
             this.temp = temp;
             this.humid = humid;
@@ -67,13 +74,62 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
 
-        initData();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("esp");
+
         mapViews();
+        initData();
         setupUI();
         setupSpinner();
         setupEvents();
 
+        GetData();
         updateSystemState(isSystemOn);
+    }
+
+    private void GetData() {
+        myRef.child("system").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (!snapshot.exists()) return;
+
+                Object tempObj = snapshot.child("temp").getValue();
+                Object humidObj = snapshot.child("humid").getValue();
+                Object daysObj = snapshot.child("days").getValue();
+                Object eggTypeObj = snapshot.child("eggType").getValue();
+                Boolean power = snapshot.child("power").getValue(Boolean.class);
+
+                if (tempObj != null) tvTempVal.setText(String.valueOf(tempObj));
+                if (humidObj != null) tvHumidVal.setText(String.valueOf(humidObj));
+                if (daysObj != null) tvTimeVal.setText(String.valueOf(daysObj));
+                if (eggTypeObj != null) selectEggInSpinner(eggTypeObj.toString());
+                if (power != null) {
+                    isSystemOn = power;
+                    updateSystemState(isSystemOn);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
+    }
+
+    private void writeToFirebase() {
+
+        String temp = tvTempVal.getText().toString();
+        String humid = tvHumidVal.getText().toString();
+        String days = tvTimeVal.getText().toString();
+
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("temp", temp);
+        data.put("humid", humid);
+        data.put("days", days);
+        data.put("power", isSystemOn);
+
+        myRef.child("system").setValue(data)
+                .addOnSuccessListener(a -> Toast.makeText(this, "Đã gửi dữ liệu!", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(this, "Gửi thất bại!", Toast.LENGTH_SHORT).show());
     }
 
     private void initData() {
@@ -129,7 +185,7 @@ public class ControlActivity extends AppCompatActivity {
             if (key.equals("Tự thiết lập")) {
                 detailText = "Tự nhập thông số thủ công";
             } else {
-                detailText = params.days + " ngày • " + params.temp + "°C • " + params.humid + "% độ ẩm";
+                detailText = params.days + " ngày • " + params.temp + "°C • " + params.humid + "%";
             }
 
             String displayName = (key.startsWith("Trứng") || key.equals("Tự thiết lập")) ? key : "Trứng " + key;
@@ -145,6 +201,8 @@ public class ControlActivity extends AppCompatActivity {
                 if (!isSystemOn) return;
 
                 EggItem item = (EggItem) parent.getItemAtPosition(position);
+                myRef.child("system").child("eggType").setValue(item.name);
+
                 String keyLookup = item.name.replace("Trứng ", "");
 
                 EggParams params = eggDatabase.get(keyLookup);
@@ -161,6 +219,7 @@ public class ControlActivity extends AppCompatActivity {
                     setInputState(false);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
@@ -187,7 +246,10 @@ public class ControlActivity extends AppCompatActivity {
         cardHumid.setOnClickListener(v -> showAdjustDialog("Độ ẩm", tvHumidVal, 1.0));
         cardTime.setOnClickListener(v -> showAdjustDialog("Thời gian ấp", tvTimeVal, 1.0));
 
-        btnFinishSetup.setOnClickListener(v -> showSuccessPopup());
+        btnFinishSetup.setOnClickListener(v -> {
+            writeToFirebase();
+            showSuccessPopup();
+        });
     }
 
     private void updateSystemState(boolean isOn) {
@@ -320,4 +382,14 @@ public class ControlActivity extends AppCompatActivity {
             return convertView;
         }
     }
+    private void selectEggInSpinner(String eggName) {
+        for (int i = 0; i < spinnerEggType.getCount(); i++) {
+            EggItem item = (EggItem) spinnerEggType.getItemAtPosition(i);
+            if (item.name.equals(eggName)) {
+                spinnerEggType.setSelection(i);
+                break;
+            }
+        }
+    }
+
 }
