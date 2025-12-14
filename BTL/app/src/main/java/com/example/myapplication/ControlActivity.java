@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,10 +45,10 @@ public class ControlActivity extends AppCompatActivity {
     private TextView tvPowerStatus;
     private View layoutContent, layoutContentBottom;
     private boolean isSystemOn = false;
-
+    private ImageButton backBtn;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
-
+    private
     static class EggParams {
         double temp;
         int humid;
@@ -82,7 +84,11 @@ public class ControlActivity extends AppCompatActivity {
         setupUI();
         setupSpinner();
         setupEvents();
-
+        backBtn = (ImageButton)findViewById(R.id.btnBack);
+        backBtn.setOnClickListener(v -> {
+            startActivity(new Intent(ControlActivity    .this, NavActivity.class));
+            finish();
+        });
         GetData();
         updateSystemState(isSystemOn);
     }

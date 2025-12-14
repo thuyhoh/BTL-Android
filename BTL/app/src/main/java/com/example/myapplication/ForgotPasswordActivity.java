@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -27,46 +28,80 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        // Khởi tạo Firebase
         mAuth = FirebaseAuth.getInstance();
 
+        // Ánh xạ View
         edtEmail = findViewById(R.id.edtEmailForgot);
         btnReset = findViewById(R.id.btnResetPass);
         tvBack = findViewById(R.id.tvBackToLogin);
 
-        // --- XỬ LÝ NÚT GỬI LINK ---
+        // ================== NÚT GỬI EMAIL RESET ==================
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = edtEmail.getText().toString().trim();
 
-                // 1. Kiểm tra rỗng
+                // Kiểm tra email
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(ForgotPasswordActivity.this, "Vui lòng nhập Email!", Toast.LENGTH_SHORT).show();
+                    edtEmail.setError("Vui lòng nhập Email");
+                    edtEmail.requestFocus();
                     return;
                 }
 
-                // 2. Thông báo đang gửi
-                Toast.makeText(ForgotPasswordActivity.this, "Đang gửi email...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotPasswordActivity.this,
+                        "Đang gửi email khôi phục...", Toast.LENGTH_SHORT).show();
 
-                // 3. Gửi lệnh lên Firebase
+                // Gửi yêu cầu reset mật khẩu
                 mAuth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+
                                 if (task.isSuccessful()) {
-                                    // Thành công
-                                    Toast.makeText(ForgotPasswordActivity.this, "Đã gửi link! Vui lòng kiểm tra hộp thư.", Toast.LENGTH_LONG).show();
-                                    finish(); // Đóng màn hình này để quay về Login
+
+                                    Toast.makeText(ForgotPasswordActivity.this,
+                                            "Đã gửi link khôi phục mật khẩu!\nVui lòng kiểm tra Email.",
+                                            Toast.LENGTH_LONG).show();
+
+                                    finish(); // Quay về Login
+
                                 } else {
-                                    // Thất bại (Email không tồn tại hoặc lỗi mạng)
-                                    Toast.makeText(ForgotPasswordActivity.this, "Lỗi: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    String message = "Gửi email thất bại!";
+
+                                    if (task.getException() instanceof FirebaseAuthException) {
+                                        String errorCode = ((FirebaseAuthException)
+                                                task.getException()).getErrorCode();
+
+                                        switch (errorCode) {
+                                            case "ERROR_INVALID_EMAIL":
+                                                message = "Email không đúng định dạng!";
+                                                break;
+
+                                            case "ERROR_USER_NOT_FOUND":
+                                                message = "Email chưa được đăng ký!";
+                                                break;
+
+                                            case "ERROR_TOO_MANY_REQUESTS":
+                                                message = "Thao tác quá nhiều lần, vui lòng thử lại sau!";
+                                                break;
+
+                                            default:
+                                                message = "Lỗi hệ thống, vui lòng thử lại!";
+                                                break;
+                                        }
+                                    }
+
+                                    Toast.makeText(ForgotPasswordActivity.this,
+                                            message, Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
             }
         });
 
-        // --- NÚT QUAY LẠI ---
+        // ================== NÚT QUAY LẠI ==================
         tvBack.setOnClickListener(v -> finish());
     }
 }

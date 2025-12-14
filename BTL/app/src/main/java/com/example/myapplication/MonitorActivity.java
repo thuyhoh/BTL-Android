@@ -1,7 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 public class MonitorActivity extends AppCompatActivity {
 
     private TextView lbTemp, lbHumi, lbTime, lbFans;
-
+    private ImageButton backBtn;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference firebaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,11 @@ public class MonitorActivity extends AppCompatActivity {
         lbHumi = (TextView) findViewById(R.id.tvHumi);
         lbTime = (TextView) findViewById(R.id.tvTime);
         lbFans = (TextView) findViewById(R.id.tvFans);
+        backBtn = (ImageButton)findViewById(R.id.btnBack);
+        backBtn.setOnClickListener(v -> {
+            startActivity(new Intent(MonitorActivity.this, NavActivity.class));
+            finish();
+        });
         GetData();
 
     }
